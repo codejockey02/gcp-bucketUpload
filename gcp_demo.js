@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const multer = require('multer');
 const {Storage} = require('@google-cloud/storage');
+const port 	     = process.env.PORT || 8080;
 
 // Creates a client
 const storage = new Storage();
@@ -35,7 +36,9 @@ app.post('/compile',upload.single('avatar'), (req,res)=>{
       res.json({message:"Submitted"});
     }upload();
 });
-app.listen(8080);
+app.listen(port);
+
+console.log(`App Runs on ${port}`);
 /**
  * TODO(developer): Uncomment the following lines before running the sample.
  */
