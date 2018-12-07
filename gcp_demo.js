@@ -20,7 +20,7 @@ app.post('/compile',upload.single('avatar'), (req,res)=>{
     var tmp_path = req.file.path;
     var file_name = req.file.originalname;
     const bucketName = 'gcp-demo02071998';
-    const filename = file_name;
+    const filename = tmp_path;
     await storage.bucket(bucketName).upload(filename, {
         // Support for HTTP requests made with `Accept-Encoding: gzip`
         gzip: true,
