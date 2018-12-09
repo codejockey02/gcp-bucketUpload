@@ -3,22 +3,23 @@ const app = express();
 const multer = require('multer');
 const {Storage} = require('@google-cloud/storage');
 const port 	     = process.env.PORT || 8080;
-
+const fs = require('fs');
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({limit:'100mb'}));
+bodyParser.urlencoded({extended: true, limit: '100mb'})
 // Creates a client
 const storage = new Storage();
-const storage1 = multer.diskStorage({
-    destination: 'uploads/',
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now());
+var path = "./uploads/file.txt";
+app.post('/compile', (req,res)=>{
+  async function upload(){
+    var filed = req.body.token;
+    fs.writeFile("./uploads/file.txt", filed, function(err) {
+      if(err) {
+          return console.log(err);
       }
-});
-const upload = multer({ storage: storage1})
-
-app.post('/compile',upload.single('avatar'), (req,res)=>{
-    // const file = req.body.code;
-    async function upload(){
-    var tmp_path = req.file.path;
-    var file_name = req.file.originalname;
+      console.log("The file was saved!");
+  }); 
+    var tmp_path = path;
     const bucketName = 'gcp-demo02071998';
     const filename = tmp_path;
     await storage.bucket(bucketName).upload(filename, {
