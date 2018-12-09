@@ -13,6 +13,7 @@ var path = "./uploads/file.txt";
 app.post('/compile', (req,res)=>{
   async function upload(){
     var filed = req.body.avatar;
+    console.log(filed);
     fs.writeFile("./uploads/file.txt", filed, function(err) {
       if(err) {
           return console.log(err);
